@@ -1,0 +1,8 @@
+name: AmazingChat
+version: '1.0.0'
+main: org.cubicdev.plugin.amazingchat.AmazingChat
+api-version: '1.21'
+prefix: AmazingChat
+softdepend:
+  - LuckPerms
+  - PlaceholderAPI

@@ -1,0 +1,22 @@
+formats:
+  normal_users_format:
+    permission: none
+    elements:
+      prefix:
+        text: "%luckperms_prefix%"
+        hover: []
+        click_action: []
+      name:
+        text: "<white>%player_name% "
+        hover:
+          - "<dark_gray>• <white>Money: <green>%vault_eco_balance_formatted%$"
+          - "<dark_gray>• <white>Rank: %luckperms_prefix%"
+        click_action: []
+      tag:
+        text: "%deluxetags_tag% " #Example
+        hover:
+          - "<yellow>Click here to equip your own tag!"
+        click_action: "SUGGEST_COMMAND;/tags"
+    message_separator: "<gray>‣ "
+    #PlaceholderAPI placeholders are not parsed here for security reasons.
+    message: "%message%"

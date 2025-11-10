@@ -1,0 +1,110 @@
+debug: false
+prefix: <gray>[<yellow>AmazingChat<gray>]
+# In minutes, set to 0 to disable
+save_data_interval: 20
+database:
+  #Available types: MariaDB, SQLite
+  type: SQLite
+  #These parameters are only set when the type is MariaDB
+  database_name: "amazingdatabase"
+  database_username: "me"
+  database_password: "mytotallysecurepassword"
+  address: localhost
+  port: 3306
+modules:
+  mentions:
+    enabled: true
+    permission: amazingchat.module.mention
+    sound: BLOCK_NOTE_BLOCK_PLING;1;1
+    actionbar_message: "<gold>You have been mentioned by <yellow>%sender% <gold>in the chat!"
+    prefix: "@"
+    commands:
+      togglementions:
+        permission: "amazingchat.module.mention.togglementions"
+        aliases:
+          - tm
+    language:
+      mentions_on: "%prefix% <white>You turned <green><b>ON <white>the mentions!"
+      mentions_off: "%prefix% <white>You turned <red><b>OFF <white>the mentions!"
+  messages:
+    enabled: true
+    permission: amazingchat.module.messages
+    sound: ENTITY_ITEM_PICKUP;1;1
+    commands:
+      msg:
+        permission: amazingchat.module.messages.msg
+        aliases:
+          - message
+          - tell
+          - pm
+      reply:
+        permission: amazingchat.module.messages.reply
+        aliases:
+          - r
+      ignore:
+        permission: amazingchat.module.messages.ignore
+        aliases: []
+      unignore:
+        permission: amazingchat.module.messages.unignore
+        aliases: []
+      togglemsg:
+        permission: amazingchat.module.messages.togglemsg
+        aliases: []
+      showignored:
+        permission: amazingchat.module.messages.showignored
+        aliases:
+          - ignoredlist
+          - il
+    language:
+      format_sender: "<gray>[PM]</gray> <green>Me <dark_gray>-></dark_gray> %target%<dark_gray>: <white>%message%"
+      format_receiver: "<gray>[PM]</gray> <green>%sender% <dark_gray>-></dark_gray> Me<dark_gray>: <white>%message%"
+      already_ignored: "%prefix% <green>%player% was already ignored."
+      not_ignored: "%prefix% <green>%player% <gold>was never already ignored."
+      successfully_ignored: "%prefix% <gold>You're now ignoring <green>%player%</green>."
+      successfully_unignored: "%prefix% <gold>You're now not ignoring <green>%player%</green>."
+      togglemsg_yes: "%prefix% <gold>You enabled private messages."
+      togglemsg_no: "%prefix% <gold>You disabled private messages."
+      youre_ignored: "%prefix% <red>Oops! The player <gold>%player%</gold> is ignoring you."
+      player_not_receiving_messages: "%prefix% <red>The player <gold>%player%</gold> is not receiving messages right now."
+      error_while_sending: "%prefix% <red>There was an error while sending your message, contact an administrator."
+      player_offline: "%prefix% <red>Couldn't send message to that player, they're offline!"
+      player_doesnt_exist: "%prefix% <red>That player doesn't exist in this server!"
+      cannot_reply: "%prefix% <red>You haven't chatted with someone."
+      cannot_message_or_ignore_yourself: "%prefix% <red>You can't message or ignore yourself."
+      you_havent_ignored: "%prefix% <red>You haven't ignored anyone!"
+      ignored_list_header: "%prefix% <yellow>You have ignored:"
+      ignored_list_format: "<gray>•</gray> <color:#d9ff4f><click:run_command:'/unignore %player%'><hover:show_text:'<color:#2bff39>Want to unignore them?</color> <color:#9cff33>Click here.</color>'>%player%</hover></click></color>"
+  chat_lockdown:
+    enabled: true
+    permission: amazingchat.module.chatlockdown
+    bypass_permission: amazingchat.module.chatlockdown.bypass
+    commands:
+      lockdown:
+        permission: amazingchat.module.chatlockdown.lockdown
+        aliases:
+          - lockchat
+    language:
+      chat_locked: "%prefix% <green>Chat locked successfully."
+      chat_unlocked: "%prefix% <green>Chat unlocked successfully."
+      chat_locked_global:
+        - ""
+        - "<yellow><b>THE CHAT WAS LOCKED BY AN ADMINISTRATOR."
+        - ""
+      chat_unlocked_global:
+        - ""
+        - "<yellow><b>THE CHAT WAS UNLOCKED BY AN ADMINISTRATOR."
+        - ""
+      cannot_chat: "%prefix% <red>Sorry! The chat is currently locked and no one can speak. Ask an administrator."
+  chat_clear:
+    enabled: true
+    permission: amazingchat.module.chatclear
+    bypass_permission: amazingchat.module.chatclear.bypass
+    blank_messages: 200 #The amount of blank messages the plugin will send to the target players (will create the effect of "clearing")
+    commands:
+      clearchat:
+        permission: amazingchat.module.chatclear.clearchat
+        aliases:
+          - cc
+          - chatclear
+    language:
+      chat_cleared: "%prefix% <green>Successfully cleared the chat of all non-administrators."
