@@ -1,5 +1,5 @@
 name: AmazingChat
-version: '1.0.0'
+version: '1.1.1'
 main: org.cubicdev.plugin.amazingchat.AmazingChat
 api-version: '1.21'
 prefix: AmazingChat

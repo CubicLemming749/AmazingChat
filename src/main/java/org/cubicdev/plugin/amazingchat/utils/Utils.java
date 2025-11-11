@@ -49,7 +49,9 @@ public class Utils {
     }
 
     public static void sendDebug(String msg){
-        sendLog(LogLevel.WARNING, msg);
+        if(yamlConfiguration.getBoolean("debug")){
+            sendLog(LogLevel.WARNING, msg);
+        }
     }
 
     public static void sendLog(LogLevel level, String msg){

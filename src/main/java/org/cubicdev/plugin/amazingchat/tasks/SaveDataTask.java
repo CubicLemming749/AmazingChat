@@ -61,6 +61,7 @@ public class SaveDataTask {
                     playerStorage.savePlayerData(playerData);
                 }
             }
+
         }, executor).exceptionally(ex -> {
             Utils.sendLog(LogLevel.ERROR, "Error detected while trying to save the data of all online players into database!");
             Utils.sendLog(LogLevel.ERROR, "Stackrace:");
