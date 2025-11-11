@@ -5,7 +5,6 @@
 
 package org.cubicdev.plugin.amazingchat.managers;
 
-import com.zaxxer.hikari.pool.HikariPool;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.cubicdev.plugin.amazingchat.AmazingChat;
 import org.cubicdev.plugin.amazingchat.storage.DatabaseType;
@@ -15,8 +14,6 @@ import org.cubicdev.plugin.amazingchat.storage.databases.SQLite;
 import org.cubicdev.plugin.amazingchat.utils.LogLevel;
 import org.cubicdev.plugin.amazingchat.utils.Utils;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;

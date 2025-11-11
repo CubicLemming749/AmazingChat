@@ -24,6 +24,7 @@
 
 package org.cubicdev.plugin.amazingchat;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.cubicdev.plugin.amazingchat.commands.*;
@@ -96,6 +97,9 @@ public final class AmazingChat extends JavaPlugin {
 
         saveDataTask = new SaveDataTask(this, configsManager, playerManager, playerStorage);
         saveDataTask.startSavingData();
+
+        final int id = 27942;
+        Metrics metrics = new Metrics(this, id);
     }
 
     @Override
