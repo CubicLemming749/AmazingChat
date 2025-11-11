@@ -18,9 +18,7 @@ import org.cubicdev.plugin.amazingchat.utils.Utils;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class SaveDataTask {
     private AmazingChat main;
@@ -48,24 +46,28 @@ public class SaveDataTask {
             return;
         }
 
-        Bukkit.getAsyncScheduler().runAtFixedRate(main, (task) -> {
+        long ticks = minutes * 60 * 20;
+        Bukkit.getScheduler().runTaskTimer(main, (task) -> {
             saveData();
-        }, minutes, minutes, TimeUnit.MINUTES);
+        }, ticks, ticks);
     }
 
-    public void saveData(){
-        Utils.sendLog(LogLevel.INFO, "Saving player data into database...");
-        Set<PlayerData> copy = new HashSet<>(playerManager.getPlayers());
+    public CompletableFuture<Void> saveData(){
+        return CompletableFuture.runAsync(() -> {
+            Utils.sendLog(LogLevel.INFO, "Saving player data into database...");
+            Set<PlayerData> copy = new HashSet<>(playerManager.getPlayers());
 
-        for(PlayerData playerData : copy){
-            if(playerData.modified){
-                executor.submit( () -> playerStorage.savePlayerData(playerData));
-                playerData.modified = false;
+            for(PlayerData playerData : copy){
+                if(playerData.modified){
+                    playerStorage.savePlayerData(playerData);
+                }
             }
-        }
-    }
-
-    public ExecutorService getExecutor() {
-        return executor;
+        }, Executors.newFixedThreadPool(25)).exceptionally(ex -> {
+            Utils.sendLog(LogLevel.ERROR, "Error detected while trying to save the data of all online players into database!");
+            Utils.sendLog(LogLevel.ERROR, "Stackrace:");
+            ex.printStackTrace();
+            Utils.sendLog(LogLevel.ERROR, "Contact the plugin developer!");
+            return null;
+        });
     }
 }

@@ -44,6 +44,7 @@ import org.cubicdev.plugin.amazingchat.tasks.SaveDataTask;
 import org.cubicdev.plugin.amazingchat.utils.LogLevel;
 import org.cubicdev.plugin.amazingchat.utils.Utils;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
@@ -99,15 +100,13 @@ public final class AmazingChat extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        saveDataTask.saveData();
-        saveDataTask.getExecutor().shutdown();
-
         try {
-            saveDataTask.getExecutor().awaitTermination(5, TimeUnit.MINUTES);
-        } catch (InterruptedException e) {
-            //nothing.
+            saveDataTask.saveData().get();
+        } catch (InterruptedException | ExecutionException e) {
+            //nothing
         }
 
+        playerStorage.getService().shutdown();
         databaseManager.closeConnections();
     }
 

@@ -18,14 +18,20 @@ import java.sql.SQLException;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class PlayerStorage {
     private DatabaseManager databaseManager;
     private PluginDatabase pluginDatabase;
 
+    private final ExecutorService service;
+
     public PlayerStorage(DatabaseManager databaseManager) {
         this.databaseManager = databaseManager;
         this.pluginDatabase = databaseManager.getDatabase();
+
+        this.service = Executors.newFixedThreadPool(30);
     }
 
     public void savePlayerData(PlayerData playerData) {
@@ -41,11 +47,12 @@ public class PlayerStorage {
                 ps.setString(5, Utils.getJsonFromSet(playerData.getIgnoredPlayers()));
 
                 ps.executeUpdate();
+                playerData.modified = false;
             } catch (SQLException e) {
                 Utils.sendLog(LogLevel.ERROR, "Error while saving data into the database for player: " + playerData.toBukkitPlayer().getName());
                 e.printStackTrace();
             }
-        });
+        }, service);
     }
 
     public void createDefaultPlayerData(Player player) {
@@ -64,7 +71,7 @@ public class PlayerStorage {
                 Utils.sendLog(LogLevel.ERROR, "Error while creating data into the database for player: " + player.getName());
                 e.printStackTrace();
             }
-        });
+        }, service);
     }
 
     public CompletableFuture<PlayerData> retrievePlayerData(Player player) {
@@ -99,7 +106,7 @@ public class PlayerStorage {
             }
 
             return retrievedData;
-        });
+        }, service);
     }
 
     public CompletableFuture<Boolean> playerExists(UUID playerUuid) {
@@ -119,6 +126,10 @@ public class PlayerStorage {
             }
 
             return false;
-        });
+        }, service);
+    }
+
+    public ExecutorService getService() {
+        return service;
     }
 }
