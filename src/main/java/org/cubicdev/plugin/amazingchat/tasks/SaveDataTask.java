@@ -46,10 +46,9 @@ public class SaveDataTask {
             return;
         }
 
-        long ticks = minutes * 60 * 20;
-        Bukkit.getScheduler().runTaskTimer(main, (task) -> {
+        Bukkit.getAsyncScheduler().runAtFixedRate(main, (task) -> {
             saveData();
-        }, ticks, ticks);
+        }, minutes, minutes, TimeUnit.MINUTES);
     }
 
     public CompletableFuture<Void> saveData(){
@@ -62,7 +61,7 @@ public class SaveDataTask {
                     playerStorage.savePlayerData(playerData);
                 }
             }
-        }, Executors.newFixedThreadPool(25)).exceptionally(ex -> {
+        }, executor).exceptionally(ex -> {
             Utils.sendLog(LogLevel.ERROR, "Error detected while trying to save the data of all online players into database!");
             Utils.sendLog(LogLevel.ERROR, "Stackrace:");
             ex.printStackTrace();
