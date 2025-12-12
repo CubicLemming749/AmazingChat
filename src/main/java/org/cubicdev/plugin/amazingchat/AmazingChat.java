@@ -125,6 +125,7 @@ public final class AmazingChat extends JavaPlugin {
         Utils.sendLog(LogLevel.INFO, "Creating and loading configuration files...");
         Config mainConfig = new Config("config.yml", this);
         Config formatsConfig = new Config("formats.yml", this);
+        new Utils(mainConfig);
 
         configsManager.addConfig(mainConfig);
         configsManager.addConfig(formatsConfig);
@@ -140,7 +141,6 @@ public final class AmazingChat extends JavaPlugin {
         this.databaseManager = new DatabaseManager(this, configsManager);
 
         this.playerStorage = new PlayerStorage(databaseManager);
-        new Utils(mainConfig);
     }
 
     public void startModules(){
